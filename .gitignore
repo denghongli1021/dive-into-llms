@@ -1,1 +1,8 @@
 .DS_Store
+
+*.bin
+*.safetensors
+*.pt
+*.pth
+documents/chapter1/code/.../data/*.csv
+._*
