@@ -22,11 +22,16 @@ class MyDataset(Dataset):
 
     def __getitem__(self, index):
         """return the input ids, attention masks and target ids"""
-        text = str(self.texts[index])
+        text = str(self.texts[index]) # 取出文字並字串化
+        # Tokenizer 編碼 (batch_encode_plus)：
+        # max_length=self.max_length：限制最大長度。
+        # padding="max_length"：不足最大長度時填充 Padding token（如 [PAD]）。
+        # truncation=True：超過最大長度時自動截斷。
+        # return_tensors="pt"：直接回傳 PyTorch Tensors。
         source = self.tokenizer.batch_encode_plus(
             [text],
             max_length=self.max_length,
-            pad_to_max_length=True,
+            # pad_to_max_length=True,
             truncation=True,
             padding="max_length",
             return_tensors="pt",

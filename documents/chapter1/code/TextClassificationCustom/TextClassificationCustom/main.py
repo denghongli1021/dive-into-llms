@@ -1,3 +1,17 @@
+import ssl
+# 備份原本的載入函式
+_original_load_windows_certs = ssl.SSLContext._load_windows_store_certs
+
+def _safe_load_windows_store_certs(self, storename, purpose):
+    try:
+        _original_load_windows_certs(self, storename, purpose)
+    except Exception:
+        # 當 Windows 憑證庫有壞掉的憑證時，直接忽略，避免程式崩潰
+        pass
+
+# 動態替換 Python 的預設行為
+ssl.SSLContext._load_windows_store_certs = _safe_load_windows_store_certs
+
 import os
 import numpy as np
 import json
